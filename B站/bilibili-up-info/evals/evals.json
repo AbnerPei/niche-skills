@@ -1,0 +1,26 @@
+{
+  "skill_name": "bilibili-up-info",
+  "evals": [
+    {
+      "id": 1,
+      "name": "space-url-query",
+      "prompt": "帮我查一下这个 B 站 UP 主的信息：https://space.bilibili.com/163637592，我想知道他的昵称、头像和个人简介",
+      "expected_output": "返回包含 name、intro、avatar_url、space_url 字段的 UP 主信息",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "mid-number-query",
+      "prompt": "帮我看看 B 站 UP 主 163637592 的主页信息，包括名字和介绍",
+      "expected_output": "返回包含 name、intro、avatar_url、space_url 字段的 UP 主信息",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "avatar-download-query",
+      "prompt": "我想下载这个 B 站 UP 主的头像：mid 是 163637592，帮我查一下他的信息再把头像下载下来",
+      "expected_output": "返回包含 name、intro、avatar_url、space_url、avatar_path 字段的 UP 主信息，且头像文件已下载到本地",
+      "files": []
+    }
+  ]
+}
