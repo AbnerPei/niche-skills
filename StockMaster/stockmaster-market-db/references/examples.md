@@ -39,6 +39,8 @@ python3 {skill_path}/scripts/oss_snapshot.py download --include-runtime
 
 `--include-runtime` 会额外上传/恢复 `Archives/sqlite`、`MarketLake`、`Cache`、`SwiftData` 和 `market.duckdb`。`Cache` 打包时会自动排除 `ossutilconfig`、`ossutil-wrapper.sh`。只同步行情主库时不要加这个参数。
 
+上传命令会先把对象写到 `.staging/`，确认发布 `latest/` 和可选 `monthly/` 成功后，再自动清空 `.staging/`。建议同时给 `stockmaster/snapshots/.staging/` 配置 1 天生命周期规则，作为异常中断时的兜底清理。
+
 ## 输出检查
 
 重点检查 StockMaster 项目中的 `DataCenter/market.sqlite` 或脚本参数指定的数据库路径。

@@ -284,6 +284,20 @@ def run_ossutil_cp(
         raise RuntimeError(f"ossutil cp failed: {detail}")
 
 
+def run_ossutil_rm(
+    target: str,
+    ossutil: Optional[str] = None,
+    config_file: Optional[str] = None,
+) -> None:
+    command = [require_ossutil(ossutil), "rm", target, "-r", "-f"]
+    if config_file:
+        command.extend(["--config-file", config_file])
+    completed = subprocess.run(command, text=True, capture_output=True)
+    if completed.returncode != 0:
+        detail = completed.stderr.strip() or completed.stdout.strip()
+        raise RuntimeError(f"ossutil rm failed: {detail}")
+
+
 def object_url(public_base_url: str, object_key: str) -> str:
     return public_base_url.rstrip("/") + "/" + object_key.lstrip("/")
 
@@ -304,6 +318,18 @@ def upload_file(path: Path, object_key: str, args: argparse.Namespace) -> None:
     if not bucket:
         raise RuntimeError("Missing OSS bucket. Set ALIYUN_OSS_BUCKET or pass --bucket.")
     run_ossutil_cp(str(path), f"oss://{bucket}/{object_key}", args.ossutil, args.oss_config_file)
+
+
+def cleanup_staging_prefix(prefix: str, args: argparse.Namespace) -> Optional[str]:
+    bucket = args.bucket or os.environ.get("ALIYUN_OSS_BUCKET")
+    if not bucket:
+        raise RuntimeError("Missing OSS bucket. Set ALIYUN_OSS_BUCKET or pass --bucket.")
+    staging_prefix = f"oss://{bucket}/{prefix}/snapshots/.staging/"
+    try:
+        run_ossutil_rm(staging_prefix, args.ossutil, args.oss_config_file)
+        return None
+    except RuntimeError as exc:
+        return str(exc)
 
 
 def prepare_packages(args: argparse.Namespace, workdir: Path) -> Dict[str, object]:
@@ -425,6 +451,8 @@ def command_upload(args: argparse.Namespace) -> None:
             upload_file(monthly_manifest_path, f"{prefix}/snapshots/monthly/{month}/manifest.json", args)
             monthly_uploaded = True
 
+        cleanup_warning = cleanup_staging_prefix(prefix, args)
+
         print(json.dumps({
             "ok": True,
             "action": "upload",
@@ -434,6 +462,8 @@ def command_upload(args: argparse.Namespace) -> None:
             "staging": f"{prefix}/snapshots/{staging_dir}/",
             "latest": f"{prefix}/snapshots/latest/",
             "monthly_uploaded": monthly_uploaded,
+            "staging_cleanup": "cleared" if cleanup_warning is None else "warning",
+            "staging_cleanup_warning": cleanup_warning,
         }, ensure_ascii=False, indent=2))
 
 

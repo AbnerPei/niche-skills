@@ -71,3 +71,4 @@ python3 {skill_path}/scripts/oss_snapshot.py download --include-runtime
 - OSS AccessKey 只放在本机环境或 ossutil 配置中，不写进仓库。
 - `--include-runtime` 会打包本机运行状态，包含 SwiftData；跨设备恢复前应确认目标设备可以覆盖本地状态。
 - `Cache` 打包时会自动排除 `ossutilconfig`、`ossutil-wrapper.sh` 这类本机敏感文件，避免把 OSS 凭据上传到对象存储。
+- 上传流程会先写入 `.staging/`，发布 `latest/` 和可选 `monthly/` 成功后自动清空 `.staging/`；建议同时在 OSS 配置 1 天生命周期规则，兜底清理异常中断时留下的 staging 残留。
