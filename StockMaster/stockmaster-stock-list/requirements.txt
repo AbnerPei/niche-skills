@@ -1,0 +1,7 @@
+requests
+pandas
+numpy
+python-dateutil
+akshare
+beautifulsoup4
+scrapling[fetchers]

@@ -1,0 +1,10 @@
+akshare
+tushare
+pandas
+numpy
+requests
+lxml
+beautifulsoup4
+selenium
+retrying
+fake-useragent
