@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # ===========================================================================
-# b_up_creator_install.sh — B站 UP 主双技能一键安装
+# b_up_creator_install.sh — B站/视频号/YouTube 四技能一键安装
 # 在 ~/.agents/skills/ 和各 IDE 目录下创建软链接，指向仓库中的
-# bilibili-up-info 和 ai-creator-info 两个技能。
-# 后续只需 git pull 仓库，所有技能自动更新。
+# bilibili-up-info、ai-creator-info、channels-video-processor 和
+# youtube-creator-info 四个技能。后续只需 git pull 仓库，所有技能自动更新。
 #
 # 安装方式：bash scripts/b_up_creator_install.sh
 # ===========================================================================
@@ -12,10 +12,12 @@ set -euo pipefail
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 GLOBAL_SKILLS="$HOME/.agents/skills"
 
-# ── 只处理 B 站 UP 主相关技能 ──────────────────────────────
+# ── B站 / 视频号 / YouTube 相关技能 ──────────────────────
 SKILL_SRC=(
   "B站/bilibili-up-info"
   "B站/ai-creator-info"
+  "视频号/channels-video-processor"
+  "YouTube/youtube-creator-info"
 )
 
 # ── 颜色输出 ──────────────────────────────────────────────
@@ -25,7 +27,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m'
 
 echo -e "${BLUE}========================================${NC}"
-echo -e "${BLUE}  B站 UP 主双技能安装脚本${NC}"
+echo -e "${BLUE}  B站/视频号/YouTube 技能安装脚本${NC}"
 echo -e "${BLUE}  仓库路径: $REPO_DIR${NC}"
 echo -e "${BLUE}========================================${NC}"
 echo ""
@@ -96,6 +98,6 @@ fi
 echo ""
 echo -e "${GREEN}========================================${NC}"
 echo -e "${GREEN}  安装完成！${NC}"
-echo -e "${GREEN}  两个 B 站技能已就绪${NC}"
+echo -e "${GREEN}  所有技能已就绪${NC}"
 echo -e "${GREEN}  下次 git pull 后，全局同步更新${NC}"
 echo -e "${GREEN}========================================${NC}"

@@ -27,10 +27,14 @@
 
 默认保存路径：
 
+- 当前环境如果存在 `AI-Master/raw`，优先保存到：
+  `/Users/peijianbo/Documents/MeMe/AI-Master/raw/...`
+- 如果该目录不存在，再回退到当前工作目录下的 `raw/...`
+
 | 分类 | 保存位置 |
 |------|----------|
-| AI 创作者 | `raw/A_AI-Content-Creator(AI创作者)/AI 创作者 - {UP主名}.md` |
-| AI 大神 | `raw/A_AI-Gurus(AI大神)/AI 大神 - {UP主名}.md` |
-| 两者都是 | `raw/A_AI-Gurus(AI大神)/AI 大神 - {UP主名}.md` |
+| AI 创作者 | `A_AI-Content-Creator(AI 创作者)/AI 创作者 - {UP主名}.md` |
+| AI 大神 | `A_AI-Gurus(AI大神)/AI 大神 - {UP主名}.md` |
+| 两者都是 | `A_AI-Gurus(AI大神)/AI 大神 - {UP主名}.md` |
 
 生成的 md 适合放入 Obsidian，包含 frontmatter、头像、自我介绍和 B 站主页链接。
